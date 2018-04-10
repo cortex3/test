@@ -47,4 +47,4 @@ pacstrap /mnt base
 echo 'generating fstab'
 genfstab -U /mnt >> /mnt/etc/fstab
 echo 'going into chroot'
-curl https://hastebin.com/raw/ > /mnt/chroot.sh && arch-chroot /mnt bash chroot.sh && rm /mnt/chroot.sh
+curl https://raw.githubusercontent.com/cortex3/test/master/chroot.sh > /mnt/chroot.sh && arch-chroot /mnt bash chroot.sh && rm /mnt/chroot.sh
