@@ -13,9 +13,9 @@ passwd
 
 # grub
 echo 'installing grub'
-pacman -S intel-ucode grub
+pacman -S intel-ucode grub --noconfirm -q
 
-if [ -d /boot ];then
+if lsblk | grep -q '/boot$' ;then
     grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=arch_grub
 else
     grub-install --target=i386-pc $partition
@@ -25,7 +25,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 # utilities etc
 echo 'installing packages'
-pacman -S stow rxvt-unicode rofi feh compton redshift dunst sudo git base-devel lightdm lightdm-gtk-greeter zsh vim firefox xorg-server xorg-xrdb ttf-font-awesome pulseaudio maim mlocate ranger nmap --no-confirm -q
+pacman -S stow rxvt-unicode rofi feh compton redshift dunst sudo git base-devel lightdm lightdm-gtk-greeter zsh vim firefox xorg-server xorg-xrdb ttf-font-awesome pulseaudio maim mlocate ranger nmap --noconfirm -q
 echo 'adding user'
 useradd -m david
 passwd david

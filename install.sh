@@ -11,7 +11,6 @@ cfdisk
 
 read -p "Enter the partition you want to install to: " partition
 echo 'creating file system'
-test -b $partition || echo 'partition not valid' && exit 1
 mkfs.ext4 $partition
 
 PS3='Please select your boot mode: '
@@ -22,7 +21,6 @@ do
         "uefi")
             bootmode=$mode
             read -p "Enter your boot partition: " boot_partition
-            test -b $boot_partition || exit 1
             echo 'creating file system'
             mkfs.fat -F32 $boot_partition
             echo 'mounting /'
