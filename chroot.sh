@@ -15,22 +15,25 @@ passwd
 echo 'installing grub'
 pacman -S intel-ucode grub
 
-if [ "$bootmode" == "legacy" ];then
-    grub-install --target=i386-pc $partition
-fi
-if [ "$bootmode" == "uefi" ];then
+if [ -d /boot ];then
     grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=arch_grub
+else
+    grub-install --target=i386-pc $partition
 fi
 
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # utilities etc
 echo 'installing packages'
-pacman -S stow rxvt-unicode rofi feh compton redshift dunst sudo git base-devel lightdm lightdm-gtk-greeter zsh vim firefox xorg-server xorg-xrdb ttf-font-awesome pulseaudio maim mlocate ranger nmap
+pacman -S stow rxvt-unicode rofi feh compton redshift dunst sudo git base-devel lightdm lightdm-gtk-greeter zsh vim firefox xorg-server xorg-xrdb ttf-font-awesome pulseaudio maim mlocate ranger nmap --no-confirm -q
 echo 'adding user'
 useradd -m david
 passwd david
 visudo
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 systemctl enable lightdm
-
+sudo -u david bash << EOF
+git clone https://aur.archlinux.org/trizen.git
+cd trizen
+makepkg -si
+EOF

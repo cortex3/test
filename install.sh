@@ -11,7 +11,7 @@ cfdisk
 
 read -p "Enter the partition you want to install to: " partition
 echo 'creating file system'
-test -b $partition || exit 1
+test -b $partition || echo 'partition not valid' && exit 1
 mkfs.ext4 $partition
 
 PS3='Please select your boot mode: '
