@@ -1,5 +1,7 @@
 #!/usr/bin/sh
 
+partition=$(echo $2 | grep -o /dev/sd[a-z])
+
 echo 'setting timezone, keymap and language'
 ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 hwclock --systohc
@@ -15,7 +17,7 @@ passwd
 echo 'installing grub'
 pacman -S intel-ucode grub --noconfirm -q
 
-if lsblk | grep -q '/boot$' ;then
+if [ $1 == "uefi" ];then
     grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=arch_grub
 else
     grub-install --target=i386-pc $partition
@@ -33,6 +35,7 @@ visudo
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 systemctl enable lightdm
 sudo -u david bash << EOF
+cd /home/david
 git clone https://aur.archlinux.org/trizen.git
 cd trizen
 makepkg -si
