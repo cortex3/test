@@ -16,18 +16,20 @@ passwd
 # grub
 echo 'installing grub'
 pacman -S intel-ucode grub --noconfirm -q
-
-if [ $1 == "uefi" ];then
-    grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=arch_grub
-else
-    grub-install --target=i386-pc $partition
-fi
-
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=arch_grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # utilities etc
 echo 'installing packages'
-pacman -S stow rxvt-unicode rofi feh compton redshift dunst sudo git base-devel lightdm lightdm-gtk-greeter zsh vim firefox xorg-server xorg-xrdb ttf-font-awesome pulseaudio maim mlocate ranger nmap i3-gaps networkmanager --noconfirm -q
+pacman -S stow rxvt-unicode rofi feh compton redshift dunst sudo git base-devel lightdm lightdm-gtk-greeter zsh vim firefox xorg-server xorg-xrdb ttf-font-awesome pulseaudio maim mlocate ranger nmap networkmanager --noconfirm -q
+
+read -p "Install i3-gaps or bspwm?" wm
+if [ $wm = "i3-gaps" ];then
+    pacman -S i3-gaps --noconfirm -q
+
+elif [ $wm = "bspwm" ];then
+    pacman -S bspwm sxhkd --noconfirm -q
+
 echo 'adding user'
 useradd -m david
 passwd david
