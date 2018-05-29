@@ -2,7 +2,7 @@
 
 partition=$(echo $2 | grep -o /dev/sd[a-z])
 
-echo 'setting timezone, keymap and language'
+echo 'setting timezone, keymap,hostname and language'
 ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 hwclock --systohc
 sed -i -e 's/#en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen
@@ -10,6 +10,7 @@ locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 echo "KEYMAP=de-latin1" > /etc/vconsole.conf
 echo "arch" > /etc/hostname
+
 echo 'set root password'
 passwd
 
