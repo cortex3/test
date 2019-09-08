@@ -1,10 +1,8 @@
 #!/usr/bin/sh
 
 set -e
-source config.sh
-
-partition=$(echo $2 | grep -o /dev/sd[a-z])
-
+source /config.sh
+partition=$1
 
 echo 'setting timezone, keymap,hostname and language'
 ln -sf $timezone /etc/localtime
@@ -20,13 +18,15 @@ passwd
 
 # grub
 echo 'installing grub'
-pacman -S intel-ucode grub --noconfirm -q
+pacman -S intel-ucode grub efibootmgr --noconfirm -q
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=arch_grub
 
 if [ "$encrypt_root" = true ]; then
+    echo "configuring mkinitcpio"
     sed -i -e "s/HOOKS=(.*)/HOOKS=(base udev autodetect keyboard keymap consolefont modconf block encrypt lvm2 filesystems fsck)/" /etc/mkinitcpio.conf
     uuid=$(lsblk -dno UUID $partition)
-    sed -i -e "s/GRUB_CMDLINE_LINUX_DEFAULT=\".*\"/GRUB_CMDLINE_LINUX_DEFAULT=\"quiet splash cryptdevice=UUID=$uuid:cryptlvm root=$partition\"/" /etc/default/grub
+    echo "configuring grub"
+    sed -i -e "s%GRUB_CMDLINE_LINUX_DEFAULT=\".*\"%GRUB_CMDLINE_LINUX_DEFAULT=\"quiet splash cryptdevice=UUID=$uuid:cryptlvm root=$partition\"%" /etc/default/grub
 fi
 grub-mkconfig -o /boot/grub/grub.cfg
 
@@ -34,7 +34,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 echo 'adding user'
 useradd -m $username
 passwd $username
-pacman -S git stow --noconfirm -q
+pacman -S git stow sudo vim --noconfirm -q
 sudo -u $username bash << EOF
 cd /tmp
 git clone https://aur.archlinux.org/yay.git

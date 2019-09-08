@@ -13,7 +13,7 @@ echo 'Next partition your system, remember to select GPT and to create a boot pa
 read -n 1 -srp "Press any key to continue"
 cfdisk
 
-read -p "Enter the partition you want to install to: " partition
+read -p "Enter the root partition:" partition
 
 if [ "$encrypt_root" = true ]; then
     echo 'Please read into the arch wiki page on drive preperation for encryption'
@@ -39,7 +39,7 @@ mount $partition /mnt
 
 echo 'mounting /boot'
 mkdir /mnt/boot
-mount $boot_partition
+mount $boot_partition /mnt/boot
 
 echo 'downloading packages'
 pacstrap /mnt base
@@ -48,4 +48,8 @@ echo 'generating fstab'
 genfstab -U /mnt >> /mnt/etc/fstab
 
 echo 'going into chroot'
-curl https://raw.githubusercontent.com/cortex3/test/master/chroot.sh > /mnt/chroot.sh && arch-chroot /mnt bash chroot.sh $partition && rm /mnt/chroot.sh
+curl https://raw.githubusercontent.com/cortex3/test/master/chroot.sh > /mnt/chroot.sh
+arch-chroot /mnt ./chroot.sh $partition
+rm /mnt/chroot.sh
+rm /mnt/config.sh
+
