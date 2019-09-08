@@ -34,7 +34,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 echo 'adding user'
 useradd -m $username
 passwd $username
-pacman -S git stow sudo vim --noconfirm -q
+pacman -S git stow sudo vim base-devel --needed --noconfirm -q
 sudo -u $username bash << EOF
 cd /tmp
 git clone https://aur.archlinux.org/yay.git
