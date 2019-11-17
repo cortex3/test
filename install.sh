@@ -1,6 +1,9 @@
 #!/usr/bin/bash
 
 set -e
+
+curl https://raw.githubusercontent.com/cortex3/test/master/config.sh > config.sh
+chmod +x config.sh
 source config.sh
 
 echo 'loading keymap'
@@ -49,7 +52,6 @@ genfstab -U /mnt >> /mnt/etc/fstab
 
 echo 'going into chroot'
 curl https://raw.githubusercontent.com/cortex3/test/master/chroot.sh > /mnt/chroot.sh
+chmod +x /mnt/chroot.sh
 arch-chroot /mnt ./chroot.sh $partition
 rm /mnt/chroot.sh
-rm /mnt/config.sh
-
