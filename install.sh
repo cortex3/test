@@ -52,6 +52,8 @@ genfstab -U /mnt >> /mnt/etc/fstab
 
 echo 'going into chroot'
 curl https://raw.githubusercontent.com/cortex3/test/master/chroot.sh > /mnt/chroot.sh
+cp /root/config.sh /mnt/config.sh
 chmod +x /mnt/chroot.sh
 arch-chroot /mnt ./chroot.sh $partition
 rm /mnt/chroot.sh
+rm /mnt/config.sh
