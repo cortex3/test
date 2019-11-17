@@ -1,7 +1,7 @@
 #!/usr/bin/sh
 
 set -e
-source /root/config.sh
+source ./config.sh
 partition=$1
 
 echo 'setting timezone, keymap,hostname and language'
