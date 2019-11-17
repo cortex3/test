@@ -32,7 +32,8 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 
 echo 'adding user'
-useradd -m $username
+useradd -m $username || exit 0
+echo 'enter user password:'
 passwd $username
 pacman -S git stow sudo vim base-devel --needed --noconfirm -q
 sudo -u $username bash << EOF

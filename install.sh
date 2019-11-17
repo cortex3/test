@@ -45,7 +45,7 @@ mkdir /mnt/boot
 mount $boot_partition /mnt/boot
 
 echo 'downloading packages'
-pacstrap /mnt base
+pacstrap /mnt base linux linux-firmware
 
 echo 'generating fstab'
 genfstab -U /mnt >> /mnt/etc/fstab
