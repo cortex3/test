@@ -21,13 +21,9 @@ read -p "Enter the root partition:" partition
 if [ "$encrypt_root" = true ]; then
     echo 'Please read into the arch wiki page on drive preperation for encryption'
     read -n 1 -srp "Press any key to continue"
-    cryptsetup luksFormat $partition
-    cryptsetup open $partition cryptlvm
-    pvcreate /dev/mapper/cryptlvm
-    vgcreate vg_root /dev/mapper/cryptlvm
-    lvcreate -l 100%FREE vg_root -n root
-
-    partition="/dev/vg_root/root" # from here on $partition is the lvm name
+    cryptsetup -y -v luksFormat $partition
+    cryptsetup open $partition cryptroot
+    partition="/dev/mapper/cryptroot" # from here on $partition is the luks volume name
 fi
 
 echo 'creating file system'
