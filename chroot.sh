@@ -58,8 +58,9 @@ rm -rf /tmp/yay
 mkdir /home/$username/git
 cd /home/$username/git
 until git clone $git_url; do echo "Try again"; done
-stow . -d /home/david/git/dotfiles -t /home/david -v
+stow . -d /home/david/git/dotfiles -t /home/david -v --no-folding # folding prevents symlinked directories
 test -f /home/$username/packages.pac && yay -S --needed - < /home/$username/packages.pac # if packages.pac exists install those packages
+test -f /home/$username/postinstall.sh && /bin/bash /home/$username/postinstall.sh # for additional tasks after installation
 EOF
 
 visudo
