@@ -23,6 +23,7 @@ if [ "$encrypt_root" = true ]; then
     read -n 1 -srp "Press any key to continue"
     until cryptsetup -y -v luksFormat $partition; do echo "Try again"; done
     until cryptsetup open $partition cryptroot; do echo "Try again"; done
+    real_partition_name=$partition
     partition="/dev/mapper/cryptroot" # from here on $partition is the luks volume name
 fi
 
@@ -54,6 +55,10 @@ echo 'going into chroot'
 curl https://raw.githubusercontent.com/cortex3/test/master/chroot.sh > /mnt/chroot.sh
 cp /root/config.sh /mnt/config.sh
 chmod +x /mnt/chroot.sh
-arch-chroot /mnt ./chroot.sh $partition
+
+if [ "$encrypt_root" = true ]; then
+arch-chroot /mnt ./chroot.sh $partition $real_partition_name
+fi
+
 rm /mnt/chroot.sh
 rm /mnt/config.sh
