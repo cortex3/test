@@ -16,7 +16,7 @@ echo 'Next partition your system, remember to select GPT and to create a boot pa
 read -n 1 -srp "Press any key to continue"
 cfdisk
 
-read -p "Enter the root partition:" partition
+read -p "Enter the root partition: " partition
 
 if [ "$encrypt_root" = true ]; then
     echo 'Please read into the arch wiki page on drive preperation for encryption'

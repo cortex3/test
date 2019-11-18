@@ -4,7 +4,7 @@ set -e
 source ./config.sh
 partition=$1
 
-if [ -n "$2" ];
+if [ -n "$2" ]; then
     real_partition_name=$2
 fi
 
