@@ -50,6 +50,10 @@ pacstrap /mnt base linux linux-firmware
 echo 'generating fstab'
 genfstab -U /mnt >> /mnt/etc/fstab
 
+echo 'here you can manually fix the fstab'
+read -n 1 -srp "Press any key to continue"
+vim /mnt/etc/fstab
+
 echo 'going into chroot'
 curl https://raw.githubusercontent.com/cortex3/test/master/chroot.sh > /mnt/chroot.sh
 cp /root/config.sh /mnt/config.sh
