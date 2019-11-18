@@ -21,8 +21,8 @@ read -p "Enter the root partition:" partition
 if [ "$encrypt_root" = true ]; then
     echo 'Please read into the arch wiki page on drive preperation for encryption'
     read -n 1 -srp "Press any key to continue"
-    cryptsetup -y -v luksFormat $partition
-    cryptsetup open $partition cryptroot
+    until cryptsetup -y -v luksFormat $partition; do echo "Try again"; done
+    until cryptsetup open $partition cryptroot; do echo "Try again"; done
     partition="/dev/mapper/cryptroot" # from here on $partition is the luks volume name
 fi
 
