@@ -29,7 +29,7 @@ if [ "$encrypt_root" = true ]; then
     echo "configuring mkinitcpio"
     sed -i -e "s/HOOKS=(.*)/HOOKS=(base udev autodetect keyboard keymap consolefont modconf block encrypt filesystems fsck)/" /etc/mkinitcpio.conf
     mkinitcpio -P # rebuild the initram to adopt the changes
-    if [ -n "$real_partition_name" ];
+    if [ -n "$real_partition_name" ]; then
         uuid=$(lsblk -dno UUID $real_partition_name)
     else
         uuid=$(lsblk -dno UUID $partition)
