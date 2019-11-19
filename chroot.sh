@@ -45,6 +45,8 @@ useradd -m $username || true
 echo 'enter user password:'
 until passwd $username; do echo "Try again"; done
 
+visudo
+
 pacman -S git stow sudo vim base-devel --needed --noconfirm -q
 sudo -u $username bash << EOF
 # install yay
@@ -57,10 +59,10 @@ rm -rf /tmp/yay
 # setup system
 mkdir /home/$username/git
 cd /home/$username/git
-until git clone $git_url; do echo "Try again"; done
+git clone $git_url
 stow . -d /home/david/git/dotfiles -t /home/david -v --no-folding # folding prevents symlinked directories
 test -f /home/$username/packages.pac && yay -S --needed - < /home/$username/packages.pac # if packages.pac exists install those packages
-test -f /home/$username/postinstall.sh && /bin/bash /home/$username/postinstall.sh # for additional tasks after installation
 EOF
 
-visudo
+# needs root most likely
+test -f /home/$username/postinstall.sh && /bin/bash /home/$username/postinstall.sh # for additional tasks after installation
