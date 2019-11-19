@@ -62,6 +62,7 @@ cd /home/$username/git
 git clone $git_url
 stow . -d /home/david/git/dotfiles -t /home/david -v --no-folding # folding prevents symlinked directories
 test -f /home/$username/packages.pac && yay -S --needed - < /home/$username/packages.pac # if packages.pac exists install those packages
+test -f /home/$username/aur_packages.pac && yay -S --needed - < /home/$username/aur_packages.pac # if aur_packages.pac exists install those packages
 EOF
 
 # needs root most likely
