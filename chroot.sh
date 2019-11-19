@@ -45,9 +45,10 @@ useradd -m $username || true
 echo 'enter user password:'
 until passwd $username; do echo "Try again"; done
 
+pacman -S git stow sudo vim base-devel --needed --noconfirm -q
+
 visudo
 
-pacman -S git stow sudo vim base-devel --needed --noconfirm -q
 sudo -u $username bash << EOF
 # install yay
 cd /tmp

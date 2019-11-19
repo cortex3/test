@@ -5,8 +5,8 @@ set -e
 curl https://raw.githubusercontent.com/cortex3/test/master/config.sh > config.sh
 chmod +x config.sh
 echo 'here you can adjust the config parameters'
-vim config.sh
 read -n 1 -srp "Press any key to continue"
+vim config.sh
 source config.sh
 
 echo 'loading keymap'
