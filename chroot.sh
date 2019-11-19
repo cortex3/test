@@ -55,7 +55,6 @@ cd /tmp
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si
-#rm -rf /tmp/yay
 
 # setup system
 mkdir /home/$username/git
